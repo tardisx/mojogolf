@@ -1,0 +1,5 @@
+Pre-requesites
+==============
+
+Mojolicious::Plugin::BasicAuth
+Authen::Simple::LDAP

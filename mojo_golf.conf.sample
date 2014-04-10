@@ -1,0 +1,8 @@
+{
+  # LDAP details
+  auth => {
+    ldap_host  => 'ldaps://company.com',
+    ldap_dn    => 'ou=People,dc=company,dc=com',
+    ldap_port  => 636,
+  },
+}
