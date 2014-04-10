@@ -3,3 +3,9 @@ Pre-requesites
 
 Mojolicious::Plugin::BasicAuth
 Authen::Simple::LDAP
+
+Starting up
+===========
+
+sqlite3 db.db < etc/schema.sql
+script/rosedb_generate
