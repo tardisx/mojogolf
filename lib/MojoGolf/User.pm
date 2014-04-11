@@ -5,6 +5,10 @@ use Authen::Simple::LDAP;
 
 sub check_auth {
   my $self = shift;
+  if ($ENV{MOJOGOLF_USER}) {
+    $self->stash->{username} = $ENV{MOJOGOLF_USER};
+    return 1;
+  }
 
   my $auth = $self->basic_auth(
     realm => sub {
@@ -40,6 +44,7 @@ sub _auth {
 
   if ( $ldap->authenticate( $username, $password ) ) {
     $self->app->log->info("authing for $username - success");
+    $self->stash->{usernane} = $username;
     return 1;
   }
   $self->app->log->info("authing for $username - failed");
