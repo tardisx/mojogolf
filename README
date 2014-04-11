@@ -1,11 +1,13 @@
-Pre-requesites
-==============
+Installation
+============
 
-Mojolicious::Plugin::BasicAuth
-Authen::Simple::LDAP
+$ carton install
+$ cp mojo_golf.conf.sample mojo_golf.conf
+$ $EDITOR mojo_golf.conf
+$ sqlite3 db.db < etc/schema.sql
+$ carton exec script/rosedb_generate
 
 Starting up
 ===========
 
-sqlite3 db.db < etc/schema.sql
-script/rosedb_generate
+carton exec morbo script/mojo_golf
