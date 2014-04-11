@@ -10,4 +10,4 @@ $ carton exec script/rosedb_generate
 Starting up
 ===========
 
-carton exec morbo script/mojo_golf
+$ carton exec morbo script/mojo_golf
