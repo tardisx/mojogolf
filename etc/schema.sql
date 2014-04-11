@@ -1,3 +1,9 @@
+DROP TABLE challenge_entries;
+DROP TABLE challenge_data;
+DROP TABLE languages;
+DROP TABLE challenges;
+DROP TABLE users;
+
 CREATE TABLE "users" (
   id       INTEGER PRIMARY KEY AUTOINCREMENT,
   username NOT NULL UNIQUE
