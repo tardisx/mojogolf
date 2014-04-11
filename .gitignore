@@ -1,3 +1,5 @@
 db.db
 mojo_log.conf
 log/*.log
+local/
+mojo_golf.conf
