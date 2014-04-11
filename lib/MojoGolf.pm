@@ -17,6 +17,8 @@ sub startup {
   $auth->get('/')->to('example#welcome');
 
   $auth->get('/challenges')->to('challenges#index');
+  $auth->get('/challenges/:challenge_id')->to('challenges#challenge');
+
 }
 
 1;
