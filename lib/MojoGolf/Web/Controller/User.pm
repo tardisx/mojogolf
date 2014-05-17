@@ -3,30 +3,48 @@ package MojoGolf::Web::Controller::User;
 use Mojo::Base 'Mojolicious::Controller';
 
 use Authen::Simple;
+use MojoGolf::DB::User;
 
 sub check_auth {
   my $self = shift;
   if ($ENV{MOJOGOLF_USER}) {
-    $self->stash->{username} = $ENV{MOJOGOLF_USER};
-    return 1;
+      $self->_fetch_or_create_user($ENV{MOJOGOLF_USER});
+      return 1;
   }
 
+  my $username;
   my $auth = $self->basic_auth(
-    realm => sub {
+    mojogolf => sub {
       my $u = shift;
       my $p = shift;
       return 0 unless ($u && $p);
-      return $self->_auth($u, $p);
+      if ($self->_auth($u, $p)) {
+          $username = $u;
+          return 1;
+      }
+      return 0;
     }
   );
 
   if ($auth) {
-    return 1;
+      $self->_fetch_or_create_user($username);
+      return 1;
   }
   else {
     # $self->app->log->error("bad auth");
     # $self->render(status => 200, text => "oh you are a very naughty boy");
   }
+}
+
+sub _fetch_or_create_user {
+    my $self     = shift;
+    my $username = shift;
+
+    my $user = MojoGolf::DB::User->new(username => $username)->load(speculative => 1);
+    if (! $user) {
+        $user = MojoGolf::DB::User->new(username => $username)->save();
+    }
+    $self->stash->{user} = $user;
 }
 
 sub _auth {
@@ -47,7 +65,7 @@ sub _auth {
 
   if ( $auth->authenticate( $username, $password ) ) {
     $self->app->log->info("authing for $username - success");
-    $self->stash->{usernane} = $username;
+    $self->stash->{username} = $username;
     return 1;
   }
 
