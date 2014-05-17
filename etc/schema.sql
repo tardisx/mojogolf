@@ -41,5 +41,5 @@ CREATE TABLE "challenge_entries" (
   compiles       BOOLEAN,
   compiler_error TEXT,
   passes        BOOLEAN,
-  UNIQUE (challenge_id, user_id)
+  UNIQUE (challenge_id, user_id, language_id)
 );
