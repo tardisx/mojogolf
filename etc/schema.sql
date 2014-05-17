@@ -11,13 +11,13 @@ CREATE TABLE "users" (
 
 CREATE TABLE "challenges" (
   id       INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  name     TEXT    NOT NULL,
+  name     TEXT    NOT NULL UNIQUE,
   descr    TEXT    NOT NULL
 );
 
 CREATE TABLE "languages" (
   id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  name        TEXT    NOT NULL,
+  name        TEXT    NOT NULL UNIQUE,
   compile     TEXT,
   run         TEXT,
   boilerplate TEXT
@@ -28,7 +28,8 @@ CREATE TABLE "challenge_data" (
   challenge_id   INTEGER NOT NULL REFERENCES challenges(id),
   input          TEXT    NOT NULL,
   output         TEXT    NOT NULL,
-  hidden         BOOLEAN NOT NULL
+  hidden         BOOLEAN NOT NULL,
+  UNIQUE (challenge_id, input)
 );
 
 CREATE TABLE "challenge_entries" (
@@ -36,5 +37,9 @@ CREATE TABLE "challenge_entries" (
   challenge_id  INTEGER NOT NULL REFERENCES challenges(id),
   user_id       INTEGER NOT NULL REFERENCES users(id),
   language_id   INTEGER NOT NULL REFERENCES languages(id),
-  code          TEXT    NOT NULL
+  code          TEXT    NOT NULL,
+  compiles       BOOLEAN,
+  compiler_error TEXT,
+  passes        BOOLEAN,
+  UNIQUE (challenge_id, user_id)
 );

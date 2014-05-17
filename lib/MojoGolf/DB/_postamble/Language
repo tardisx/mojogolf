@@ -1,0 +1,38 @@
+=head2 can_compile
+
+Compile some code, return true if compiles, throws exception with the compiler error if not
+
+=cut
+
+use File::Temp  qw/tempfile/;
+use IPC::Run;#    qw/run/;
+
+sub can_compile {
+    my $self = shift;
+    my $code = shift;
+
+    # here we hope you are only running this code with trusted users :-)
+    my ($fh, $filename) = tempfile();
+
+    # XXX need to deal with boilerplate crap here
+    print $fh $code;
+    close $fh;
+
+    my @cmd = split(/!/, $self->compile);
+    s/^SRC$/$filename/ foreach (@cmd);
+
+    my ($out, $err);
+    my $exit = IPC::Run::run \@cmd, \undef, \$out, \$err, IPC::Run::timeout(10);
+
+#    warn "---\n";
+#    warn "OUT: $out\n";
+#    warn "ERR: $err\n";
+#    warn "EXIT: $exit\n";
+
+    $err =~ s/\Q$filename\E/<yourcode>/msg;
+
+    unlink $filename;
+
+    die "$err\n" if (! $exit);
+    return 1;
+}

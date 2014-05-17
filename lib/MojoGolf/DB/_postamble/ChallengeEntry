@@ -1,0 +1,27 @@
+
+=head2 compile
+
+Test if the code compiles and set the flag on the row accordingly.
+
+=cut
+
+sub compile {
+
+    my $self = shift;
+
+    my $challenge = $self->challenge;
+    my $lang      = $self->language;
+
+    my $compiles_ok = eval {
+        return $lang->can_compile($self->code);
+    } or do {
+        my $err = $@;
+        $self->compiler_error($err);
+        0;
+    };
+    $self->compiles($compiles_ok);
+    if ($compiles_ok) {
+        $self->compiler_error(undef);
+    }
+    return $compiles_ok;
+}
