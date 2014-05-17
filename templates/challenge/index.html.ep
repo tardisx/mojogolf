@@ -1,7 +1,7 @@
 
 <h2>Challenges</h2>
 
-<table>
+<table class="table table-condensed">
 <tr>
   <th>id</th>
   <th>name</th>
