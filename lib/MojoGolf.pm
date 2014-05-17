@@ -25,12 +25,21 @@ sub startup {
 
   $auth->get('/challenges')->to('challenge#index');
   $auth->get('/challenges/:challenge_id')->to('challenges#challenge');
+
+  my $rest = $r->bridge('/rest/v1');
+
+  # challenges
+  $rest->get('/challenges')       ->to(controller => 'REST::Challenge', action => 'get_collection');
+  $rest->get('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'get_one');
+  $rest->post('/challenges')      ->to(controller => 'REST::Challenge', action => 'post');
+  $rest->put('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'put');
+  $rest->delete('/challenges/:id')->to(controller => 'REST::Challenge', action => 'delete');
+
 }
 
 sub setup_helpers {
     my $self = shift;
     $self->helper( from_now => sub { my $dt = $_[1]; return concise(from_now($dt->epoch - time())); } );
 }
-
 
 1;
