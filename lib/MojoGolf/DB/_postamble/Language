@@ -4,17 +4,33 @@ Compile some code, return true if compiles, throws exception with the compiler e
 
 =cut
 
-use File::Temp  qw/tempfile/;
-use IPC::Run;#    qw/run/;
+use File::Temp  qw/tempfile tempdir/;
+use IPC::Run;
+use Carp        qw/croak/;
 
 sub can_compile {
     my $self = shift;
     my $code = shift;
 
     # here we hope you are only running this code with trusted users :-)
-    my ($fh, $filename) = tempfile();
+    my ($filename, $fh);
+    my $temp_dir;
+    if ($self->source_filename) {
+        # fixed source filename, so we need a directory
+        $temp_dir = tempdir( CLEANUP => 1 );
+        $filename = $temp_dir . "/" . $self->source_filename;
+        open ($fh, ">", $filename) || croak "cannot open $filename - $!";
+    }
+    else {
+        ($fh, $filename) = tempfile();
+    }
 
-    # XXX need to deal with boilerplate crap here
+    if ($self->boilerplate) {
+        my $tmp = $code;
+        $code = $self->boilerplate;
+        $code =~ s/CODEHERE/$tmp/g;
+    }
+
     print $fh $code;
     close $fh;
 
@@ -24,15 +40,15 @@ sub can_compile {
     my ($out, $err);
     my $exit = IPC::Run::run \@cmd, \undef, \$out, \$err, IPC::Run::timeout(10);
 
-#    warn "---\n";
-#    warn "OUT: $out\n";
-#    warn "ERR: $err\n";
-#    warn "EXIT: $exit\n";
-
+    # replace source filenames with a more useful string
     $err =~ s/\Q$filename\E/<yourcode>/msg;
 
     unlink $filename;
 
+    # throw exception with compiler error messages from stderr, if the compiler
+    # didn't exit with a success
     die "$err\n" if (! $exit);
+
+    # otherwise it looks like everything was good
     return 1;
 }

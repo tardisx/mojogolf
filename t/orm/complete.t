@@ -21,6 +21,7 @@ basic_db_check($plang, 'perl language');
 # and another for java
 my $jlang = MojoGolf::DB::Language->new(name => "java_$$",
                                         compile => 'javac!SRC',
+                                        source_filename => 'MojoGolf.java',
                                         run => 'java!SRC')->save();
 basic_db_check($jlang, 'java language');
 
@@ -31,8 +32,10 @@ public class MojoGolf {
   public static void main(String[] args) throws IOException {
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     String s;
-    while ((s = in.readLine()) != null && s.length() != 0)
-      System.out.println(s);
+    while ((s = in.readLine()) != null && s.length() != 0) {
+      //System.out.println(s);
+      CODEHERE
+    }
   }
 }
 |);
@@ -74,9 +77,15 @@ SKIP: {
   my $jentry = MojoGolf::DB::ChallengeEntry->new(challenge_id => $challenge->id,
                                                  user_id      => $user->id,
                                                  language_id  => $jlang->id,
-                                                 code         => 'XXX',
+                                                 code         => 'not java code!',
                                                 )->save();
 
+  ok(! $jentry->compile(), 'does not compile yet');
+  like($jentry->compiler_error, qr/error: not a statement/, 'correct error');
+
+  $jentry->code('System.out.println(s);');
+  ok($jentry->compile(), 'compiles now');
+  ok(! $jentry->compiler_error, 'no errors');
 
   basic_db_check($jentry, 'java entry');
   ok($jentry->delete,  'delete java entry');
