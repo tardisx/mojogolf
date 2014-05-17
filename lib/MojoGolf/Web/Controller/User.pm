@@ -1,7 +1,8 @@
-package MojoGolf::User;
+package MojoGolf::Web::Controller::User;
+
 use Mojo::Base 'Mojolicious::Controller';
 
-use Authen::Simple::LDAP;
+use Authen::Simple;
 
 sub check_auth {
   my $self = shift;
@@ -15,7 +16,7 @@ sub check_auth {
       my $u = shift;
       my $p = shift;
       return 0 unless ($u && $p);
-      return $self->_auth($u, $p); 
+      return $self->_auth($u, $p);
     }
   );
 
@@ -35,18 +36,21 @@ sub _auth {
 
   $self->app->log->info("authing for $username");
 
-  my $ldap = Authen::Simple::LDAP->new(
-    host    => $self->config->{auth}->{ldap_host},
-    basedn  => $self->config->{auth}->{ldap_dn},
-    port    => $self->config->{auth}->{ldap_port},
+  my @auth_simple_objects;
+  foreach my $auth_simple_method (@{ $self->app->config->{auth} }) {
+      eval "use $auth_simple_method->{module}; 1;"
+        or do { $self->app->log->error($@); };
+      push @auth_simple_objects,
+        $auth_simple_method->{module}->new($auth_simple_method->{args});
+  }
+  my $auth = Authen::Simple->new(@auth_simple_objects);
 
-  );
-
-  if ( $ldap->authenticate( $username, $password ) ) {
+  if ( $auth->authenticate( $username, $password ) ) {
     $self->app->log->info("authing for $username - success");
     $self->stash->{usernane} = $username;
     return 1;
   }
+
   $self->app->log->info("authing for $username - failed");
   return 0;
 

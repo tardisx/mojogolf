@@ -1,8 +1,11 @@
-{
-  # LDAP details
-  auth => {
-    ldap_host  => 'ldaps://company.com',
-    ldap_dn    => 'ou=People,dc=company,dc=com',
-    ldap_port  => 636,
-  },
+{ auth =>
+    [
+     { module => 'Authen::Simple::LDAP',
+       args   => {
+                  host      => 'ldaps://company.com',
+                  basedn    => 'ou=People,dc=company,dc=com',
+                  # port      => 389
+                 }
+     },
+    ]
 }

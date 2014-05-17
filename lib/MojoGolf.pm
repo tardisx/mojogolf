@@ -11,10 +11,9 @@ sub startup {
   # Router
   my $r = $self->routes;
 
-  my $auth = $r->bridge->to('user#check_auth');
+  $r->namespaces([qw/MojoGolf::Web::Controller/]);
 
-  # Normal route to controller
-  $auth->get('/')->to('example#welcome');
+  my $auth = $r->bridge->to('user#check_auth');
 
   $auth->get('/challenges')->to('challenges#index');
   $auth->get('/challenges/:challenge_id')->to('challenges#challenge');
