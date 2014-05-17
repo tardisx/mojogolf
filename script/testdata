@@ -7,16 +7,22 @@ use lib 'lib';
 
 use MojoGolf::DB::Challenge;
 use MojoGolf::DB::ChallengeData;
+use DateTime;
 
-my $challenge = MojoGolf::DB::Challenge->new(name => "uppercase_vowels",
-                                             descr=> qq{
-<p>The input data (line based) should be output as-is, except all voweles
-should be forced to upper-case.</p>
-})->save();
+my $challenge = MojoGolf::DB::Challenge->new(
+    name        => "uppercase_vowels",
+    finishes    => DateTime->now->add( days => 1 ),
+    short_descr => qq{
+The input data (line based) should be output as-is, except all vowels
+should be forced to upper-case.
+},
+    long_descr => qq{Long description here},
+)->save();
 
 my $data = MojoGolf::DB::ChallengeData->new(
-  challenge_id => $challenge->id,
-  input => qq{
+    challenge_id => $challenge->id,
+    hidden       => 0,
+    input        => qq{
 Praesent sit amet malesuada massa. Praesent sollicitudin metus massa, ut varius tellus pharetra in.
 Maecenas posuere semper nibh, et ullamcorper mauris consectetur in. Donec non accumsan libero, eu
 ultricies justo. Etiam sapien lacus, iaculis a tincidunt sed, commodo eu elit. Phasellus posuere
@@ -26,7 +32,7 @@ pretium. Maecenas tempor ante vel nunc fermentum malesuada. Nam consectetur ante
 scelerisque, vitae pulvinar quam volutpat. Integer fringilla sodales quam, placerat aliquam lacus
 facilisis non. Maecenas at consectetur quam.
 },
-  output => qq{
+    output => qq{
 PrAEsEnt sIt AmEt mAlEsUAdA mAssA. PrAEsEnt sOllIcItUdIn mEtUs mAssA, Ut vArIUs tEllUs phArEtrA In.
 MAEcEnAs pOsUErE sEmpEr nIbh, Et UllAmcOrpEr mAUrIs cOnsEctEtUr In. DOnEc nOn AccUmsAn lIbErO, EU
 UltrIcIEs jUstO. EtIAm sApIEn lAcUs, IAcUlIs A tIncIdUnt sEd, cOmmOdO EU ElIt. PhAsEllUs pOsUErE
@@ -35,11 +41,11 @@ VIvAmUs nIsI lAcUs, pOrtA Et jUstO In, ElEmEntUm cOmmOdO mAgnA. VIvAmUs sAgIttIs
 prEtIUm. MAEcEnAs tEmpOr AntE vEl nUnc fErmEntUm mAlEsUAdA. NAm cOnsEctEtUr AntE vEl EnIm
 scElErIsqUE, vItAE pUlvInAr qUAm vOlUtpAt. IntEgEr frIngIllA sOdAlEs qUAm, plAcErAt AlIqUAm lAcUs
 fAcIlIsIs nOn. MAEcEnAs At cOnsEctEtUr qUAm.
-})->save();
-  
-my $language = MojoGolf::DB::Language->new(
-  name => 'perl',
-  compile => 'perl -cw $1',
-  run     => 'perl $1',
+}
 )->save();
-  
+
+my $language = MojoGolf::DB::Language->new(
+    name    => 'perl',
+    compile => 'perl -cw $1',
+    run     => 'perl $1',
+)->save();

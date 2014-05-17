@@ -42,7 +42,7 @@ public class MojoGolf {
 $jlang->save();
 
 # create a challenge for them to enter
-my $challenge = MojoGolf::DB::Challenge->new(name => "number_add_$$", descr => 'add numbers together')->save();
+my $challenge = MojoGolf::DB::Challenge->new(name => "number_add_$$", long_descr => '', short_descr => 'add numbers together', finishes => DateTime->now->add(days => 1))->save();
 basic_db_check($challenge, 'challenge');
 
 # create challenge data for this challenge
