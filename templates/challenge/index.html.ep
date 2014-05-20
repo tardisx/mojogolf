@@ -1,19 +1,21 @@
-
-<h2>Challenges</h2>
-
-<table class="table table-condensed">
-<tr>
-  <th>id</th>
-  <th>name</th>
-  <th>description</th>
-  <th>time left</th>
-</tr>
-% foreach my $challenge (@$challenges) {
-<tr>
-  <td><%= $challenge->id %></td>
-  <td><%= $challenge->name %></td>
-  <td><%= $challenge->short_descr %></td>
-  <td><%= from_now($challenge->finishes) %></td>
-</tr>
-% }
-</table>
+<div class="panel-heading">
+    <h2 class="panel-title">Challenges</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table table-condensed">
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>description</th>
+      <th>time left</th>
+    </tr>
+    % foreach my $challenge (@$challenges) {
+    <tr>
+      <td><%= $challenge->id %></td>
+      <td><%= $challenge->name %></td>
+      <td><%= $challenge->short_descr %></td>
+      <td><%= from_now($challenge->finishes) %></td>
+    </tr>
+    % }
+    </table>
+  </div>
