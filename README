@@ -8,6 +8,7 @@ $ $EDITOR mojo_golf.conf
 $ sqlite3 db.db < etc/schema.sql
 $ carton exec script/rosedb_generate
 
+
 Run tests
 =========
 
