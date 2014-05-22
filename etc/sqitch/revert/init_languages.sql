@@ -4,6 +4,4 @@ BEGIN;
 
 DROP TABLE languages;
 
--- XXX Add DDLs here.
-
 COMMIT;

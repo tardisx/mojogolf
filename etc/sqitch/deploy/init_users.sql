@@ -7,6 +7,4 @@ CREATE TABLE "users" (
   username TEXT    NOT NULL UNIQUE
 );
 
--- XXX Add DDLs here.
-
 COMMIT;

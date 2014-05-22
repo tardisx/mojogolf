@@ -4,6 +4,4 @@ BEGIN;
 
 DROP TABLE challenges;
 
--- XXX Add DDLs here.
-
 COMMIT;

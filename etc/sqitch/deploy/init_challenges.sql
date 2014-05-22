@@ -11,6 +11,4 @@ CREATE TABLE "challenges" (
   finishes    TIMESTAMP NOT NULL
 );
 
--- XXX Add DDLs here.
-
 COMMIT;
