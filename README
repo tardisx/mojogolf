@@ -5,7 +5,7 @@ You need the 'Carton' CPAN module installed, then:
 
 $ carton install
 $ $EDITOR mojo_golf.conf
-$ sqlite3 db.db < etc/schema.sql
+$ carton exec sqitch deploy db:sqlite:db.db
 $ carton exec script/rosedb_generate
 
 
