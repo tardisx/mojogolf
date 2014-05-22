@@ -35,6 +35,13 @@ sub startup {
   $rest->put('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'put');
   $rest->delete('/challenges/:id')->to(controller => 'REST::Challenge', action => 'delete');
 
+  # languages
+  $rest->get('/languages')       ->to(controller => 'REST::Language', action => 'get_collection');
+  $rest->get('/languages/:id')   ->to(controller => 'REST::Language', action => 'get_one');
+  $rest->post('/languages')      ->to(controller => 'REST::Language', action => 'post');
+  $rest->put('/languages/:id')   ->to(controller => 'REST::Language', action => 'put');
+  $rest->delete('/languages/:id')->to(controller => 'REST::Language', action => 'delete');
+
 }
 
 sub setup_helpers {
