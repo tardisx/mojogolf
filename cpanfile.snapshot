@@ -8,7 +8,7 @@ DISTRIBUTIONS
       inc::MakeMaker undef
     requirements:
       ExtUtils::MakeMaker 6.30
-      Moose 0
+      Mouse 0.40
   App-Sqitch-0.992
     pathname: D/DW/DWHEELER/App-Sqitch-0.992.tar.gz
     provides:
@@ -1662,15 +1662,6 @@ DISTRIBUTIONS
       Test::More 0
       Tie::Handle 0
       base 0
-  IO-Tty-1.11
-    pathname: T/TO/TODDR/IO-Tty-1.11.tar.gz
-    provides:
-      IO::Pty 1.11
-      IO::Tty 1.11
-      IO::Tty::Constant undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
   IPC-Run-0.92
     pathname: T/TO/TODDR/IPC-Run-0.92.tar.gz
     provides:
@@ -1683,7 +1674,6 @@ DISTRIBUTIONS
       IPC::Run::Win32Pump 0.90
     requirements:
       ExtUtils::MakeMaker 0
-      IO::Pty 1.08
       Test::More 0.47
   IPC-Run3-0.048
     pathname: R/RJ/RJBS/IPC-Run3-0.048.tar.gz
@@ -2619,10 +2609,10 @@ DISTRIBUTIONS
       Scalar::Util 1.18
       Test::More 0.42
       perl 5.00503
-  Params-Validate-1.08
-    pathname: D/DR/DROLSKY/Params-Validate-1.08.tar.gz
+  Params-Validate-1.10
+    pathname: D/DR/DROLSKY/Params-Validate-1.10.tar.gz
     provides:
-      Attribute::Params::Validate 1.08
+      Attribute::Params::Validate 1.10
       Bar undef
       Baz undef
       Foo undef
@@ -2632,10 +2622,10 @@ DISTRIBUTIONS
       PVTests::Regex undef
       PVTests::Standard undef
       PVTests::With undef
-      Params::Validate 1.08
-      Params::Validate::Constants 1.08
-      Params::Validate::PP 1.08
-      Params::Validate::XS 1.08
+      Params::Validate 1.10
+      Params::Validate::Constants 1.10
+      Params::Validate::PP 1.10
+      Params::Validate::XS 1.10
       Quux undef
       Testing::X undef
       Yadda undef
@@ -3206,10 +3196,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Pod 0
       Test::Pod::Coverage 0
-  Try-Tiny-0.20
-    pathname: D/DO/DOY/Try-Tiny-0.20.tar.gz
+  Try-Tiny-0.22
+    pathname: D/DO/DOY/Try-Tiny-0.22.tar.gz
     provides:
-      Try::Tiny 0.20
+      Try::Tiny 0.22
     requirements:
       Carp 0
       Exporter 5.57
