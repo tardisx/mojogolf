@@ -40,26 +40,68 @@
                 <h2 class="panel-title">Hey Person, here is who you are</h2>
               </div>
               <div class="panel-body">
+                <dl>
+                  <dt>Name</dt>
+                  <dd id="userName">Trent</dd>
+                  <dt>Challenges Entered</dt>
+                  <dd id="userTotalChallenges">7</dd>
+                  <dt>Challenges Won</dt>
+                  <dd id="userChallengesWon">2</dd>
+                </dl>
               </div>
+              <table id="userChallengeData" class="table table-bordered table-hover">
+                <tr>
+                  <th>Challenge</th>
+                  <th>Submission Date</th>
+                  <th>File Name</th>
+                  <th>Language</th>
+                  <th>Score</th>
+                </tr>
+                <tr>
+                  <td>Game of Life</td>
+                  <td>2014/4/31</td>
+                  <td>GameOfLife.java</td>
+                  <td>Java8</td>
+                  <td>90</td>
+                </tr>
+              </table>
             </div>
             <div class="tab-pane fade panel panel-default" id="submit">
               <div class="panel-heading">
                 <h2 class="panel-title">Submit Your Code!</h2>
               </div>
               <div class="panel-body">
-                <form role="form">
+
+                <form id="challengeSubmitForm" class ="form-horizontal" role="form">
+
                   <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" id="exampleInputFile">
-                    <p class="help-block">Example block-level help text here.</p>
+                    <label for="name" class="col-sm-2 control-label">Challenge</label>
+                    <div class="col-sm-3">
+                      <input id="name" type="text" class="form-control" placeholder="Game of Life">
+                    </div>
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Check me out
-                    </label>
+
+                  <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Language</label>
+                    <div class="col-sm-3">
+                      <input id="name" type="text" class="form-control" placeholder="Game of Life">
+                    </div>
                   </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
+
+                  <div class="form-group">
+
+                    <label for="codeFile" class="col-sm-2 control-label">Code File</label>
+                    <div class="col-sm-3">
+                      <input id="codeFile" type="file">
+                      <p class="help-block">Just give us your source files, we don't care about no compiled code</p>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-default">Reset</button>
+
                 </form>
+
               </div>
 
             </div>
@@ -154,8 +196,6 @@
             </div>
             </div>
           </div>
-
-
       </div><!--/.nav-collapse -->
     </div>
 
