@@ -1,3 +1,6 @@
+jQuery.fn.reset = function () {
+  $(this).each (function() { this.reset(); });
+}
 
 function showalert(message,alerttype) {
 
@@ -21,13 +24,17 @@ $( document ).ready(function() {
     $(this).tab('show')
   });
 
-  /**
-  /rest/v1/languages
-  **/
-
   $('#languageForm').submit(function(e){
     e.preventDefault();
-    var dataArray = JSON.stringify({'name':$("#name",this).val()});
+    var dataArray = JSON.stringify(
+      {
+        'name':$("#name",this).val(),
+        'compile':$("#compile",this).val(),
+        'source_filename':$("#source_filename",this).val(),
+        'run':$("#run",this).val(),
+        'boilerplate':$("#boilerplate",this).val(),
+
+      });
     $.ajax({
       type: "POST",
       url: "/rest/v1/languages",
@@ -37,6 +44,8 @@ $( document ).ready(function() {
     })
     .done(function( msg ) {
       showalert("Language Has Been Added with the ID:"+msg.id,"alert-success");
+      $("#languageForm").reset();
+
     })
     .fail(function(msg){
       showalert("Woops, we were unable to add the langauge","alert-danger");
