@@ -31,8 +31,8 @@ function submitJSON(form,endpoint,data,outputFormName){
     $(form).reset();
 
   })
-  .fail(function(msg){
-    showalert("Woops, we were unable to add the "+outputFormName,"alert-danger");
+  .fail(function(data){
+    showalert("Woops, we were unable to add the "+outputFormName+" - "+data.responseJSON.error,"alert-danger");
   });
 
 }
