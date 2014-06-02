@@ -5,7 +5,9 @@ use warnings;
 
 use Mojo::Base 'Mojolicious::Controller';
 
-use Carp qw/confess/;
+use Carp         qw/confess/;
+use Module::Load qw/load/;
+use Data::Dumper;
 
 sub query_args       { return () };
 sub db_class_read    { confess "was not overridden" }
@@ -15,6 +17,18 @@ sub get_extra_fields { () }
 sub post_fields      { confess "was not overridden" }
 sub load_with        { () };
 sub sanitise         { };
+
+sub schema {
+    my $self = shift;
+    my $class = $self->db_class_read;
+    load $class;
+    my $data = [];
+    foreach ($class->meta->columns) {
+        push @$data, { name => $_->name, type => $_->type, not_null => $_->not_null };
+    }
+    $self->render(json => $data);
+
+}
 
 sub get_one {
     my $self = shift;
@@ -28,8 +42,7 @@ sub get_one {
         return $self->render(status => 400, json => { error => "bad id $id provided" } );
     }
 
-    eval "require $class";
-    die $@ if $@;
+    load $class;
 
     my %with = ();
     $with{with} = [ $self->load_with ] if ($self->load_with);
@@ -52,8 +65,7 @@ sub get_collection {
     my $sort   = $self->param('sort')   || 'id ASC';
 
     my $class  = $self->db_class_read . "::Manager";
-    eval "require $class";
-    die $@ if $@;
+    load $class;
 
     my %extra_args = $self->query_args;
 
@@ -84,8 +96,7 @@ sub delete {
         return $self->render(status => 400, json => { error => "bad id $id provided" } );
     }
 
-    eval "require $class";
-    die $@ if $@;
+    load $class;
 
     my $object = $class->new(id => $id)->load(speculative => 1);
 
@@ -105,8 +116,7 @@ sub post {
     my $class = $self->db_class_write;
     my $req   = $self->req->json;
 
-    eval "require $class";
-    die $@ if $@;
+    load $class;
 
     my $new = $class->new();
     foreach my $param ($self->post_fields) {
@@ -136,8 +146,7 @@ sub put {
 
     $self->_log('PUT', "id: $id");
 
-    eval "require $class";
-    die $@ if $@;
+    load $class;
 
     my $new = $class->new(id => $id)->load(speculative => 1);
     if (! $new) {

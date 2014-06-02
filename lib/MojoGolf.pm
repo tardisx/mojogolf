@@ -29,6 +29,7 @@ sub startup {
   my $rest = $r->bridge('/rest/v1');
 
   # challenges
+  $rest->get('/challenges/schema')->to(controller => 'REST::Challenge', action => 'schema');
   $rest->get('/challenges')       ->to(controller => 'REST::Challenge', action => 'get_collection');
   $rest->get('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'get_one');
   $rest->post('/challenges')      ->to(controller => 'REST::Challenge', action => 'post');
@@ -36,6 +37,7 @@ sub startup {
   $rest->delete('/challenges/:id')->to(controller => 'REST::Challenge', action => 'delete');
 
   # languages
+  $rest->get('/languages/schema')->to(controller => 'REST::Language', action => 'schema');
   $rest->get('/languages')       ->to(controller => 'REST::Language', action => 'get_collection');
   $rest->get('/languages/:id')   ->to(controller => 'REST::Language', action => 'get_one');
   $rest->post('/languages')      ->to(controller => 'REST::Language', action => 'post');
