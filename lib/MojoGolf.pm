@@ -28,21 +28,16 @@ sub startup {
 
   my $rest = $r->bridge('/rest/v1');
 
-  # challenges
-  $rest->get('/challenges/schema')->to(controller => 'REST::Challenge', action => 'schema');
-  $rest->get('/challenges')       ->to(controller => 'REST::Challenge', action => 'get_collection');
-  $rest->get('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'get_one');
-  $rest->post('/challenges')      ->to(controller => 'REST::Challenge', action => 'post');
-  $rest->put('/challenges/:id')   ->to(controller => 'REST::Challenge', action => 'put');
-  $rest->delete('/challenges/:id')->to(controller => 'REST::Challenge', action => 'delete');
-
-  # languages
-  $rest->get('/languages/schema')->to(controller => 'REST::Language', action => 'schema');
-  $rest->get('/languages')       ->to(controller => 'REST::Language', action => 'get_collection');
-  $rest->get('/languages/:id')   ->to(controller => 'REST::Language', action => 'get_one');
-  $rest->post('/languages')      ->to(controller => 'REST::Language', action => 'post');
-  $rest->put('/languages/:id')   ->to(controller => 'REST::Language', action => 'put');
-  $rest->delete('/languages/:id')->to(controller => 'REST::Language', action => 'delete');
+  foreach my $rt (qw/challenges languages/) {
+    my $class = "REST::" . ucfirst $rt;  # REST::Challenges
+    chop $class;                         # REST::Challenge
+    $rest->get("/$rt/schema")->to(controller => $class, action => 'schema');
+    $rest->get("/$rt")       ->to(controller => $class, action => 'get_collection');
+    $rest->get("/$rt/:id")   ->to(controller => $class, action => 'get_one');
+    $rest->post("/$rt")      ->to(controller => $class, action => 'post');
+    $rest->put("/$rt/:id")   ->to(controller => $class, action => 'put');
+    $rest->delete("/$rt/:id")->to(controller => $class, action => 'delete');
+  }
 
 }
 
