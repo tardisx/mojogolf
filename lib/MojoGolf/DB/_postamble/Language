@@ -52,3 +52,11 @@ sub can_compile {
     # otherwise it looks like everything was good
     return 1;
 }
+
+sub display_name {
+    my $class    = shift;
+    my $col_name = shift;
+
+    return 'Boilerplate Wrapper' if ($col_name eq 'boilerplate');
+    return $class->SUPER::display_name($col_name);
+}

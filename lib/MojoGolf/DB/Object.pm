@@ -15,5 +15,11 @@ use base qw(Rose::DB::Object);
 
 sub init_db { return MojoGolf::DB->new; }
 
+sub display_name {
+    my $class    = shift;
+    my $col_name = shift;
+    return $col_name;
+}
+
 
 1;
